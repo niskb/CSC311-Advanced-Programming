@@ -1,16 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Button?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bcs.csc311.tipcalculator.PrimaryController">
-   <children>
-      <Label text="Primary View" />
-      <Button fx:id="primaryButton" text="Switch to Secondary View" onAction="#switchToSecondary"/>
-   </children>
-   <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-   </padding>
-</VBox>
+<BorderPane xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bcs.csc311.tipcalculator.PrimaryController">
+   <center>
+      <AnchorPane prefHeight="552.0" prefWidth="623.0">
+         <children>
+            <HBox>
+               <children>
+                  <VBox alignment="CENTER" prefHeight="552.0" prefWidth="623.0" spacing="20.0">
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                     <children>
+                        <Label text="Amount" />
+                        <TextField fx:id="amountTF" />
+                        <RadioButton fx:id="rb1" mnemonicParsing="false" onAction="#getSelectedTipPercentage" text="15%">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="tipPercentageGroup" />
+                           </toggleGroup></RadioButton>
+                        <RadioButton fx:id="rb2" mnemonicParsing="false" onAction="#getSelectedTipPercentage" text="20%" toggleGroup="$tipPercentageGroup" />
+                        <RadioButton fx:id="rb3" mnemonicParsing="false" onAction="#getSelectedTipPercentage" text="25%" toggleGroup="$tipPercentageGroup" />
+                        <Button fx:id="calculateButton" mnemonicParsing="false" onAction="#calculateButtonHandler" text="Calculate" />
+                        <Label text="Tip" />
+                        <TextField fx:id="tipTF" prefWidth="288.0" />
+                        <Label text="Total" />
+                        <TextField fx:id="totalTF" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
