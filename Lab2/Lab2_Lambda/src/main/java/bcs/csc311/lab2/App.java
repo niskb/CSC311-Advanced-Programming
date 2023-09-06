@@ -76,7 +76,16 @@ public class App extends Application {
         stage.show();
         
         // handle button event
-        
+        // Lambda expression
+        button.setOnAction(eh -> {
+            String amt = amountTF.getText();
+            double amount = Double.parseDouble(amt);
+            double tipPercentage = (double) tipPercentageGroup.getSelectedToggle().getUserData();
+            double tip = amount * tipPercentage / 100;
+            double total = amount + tip;
+            tipTF.setText(String.format("%.2f", tip));
+            totalTF.setText(String.format("%.2f", total));
+        });
         
     }
 
