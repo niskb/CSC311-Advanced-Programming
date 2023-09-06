@@ -2,6 +2,8 @@ package bcs.csc311.lab2;
 
 import javafx.application.Application;
 import static javafx.application.Application.launch;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -76,7 +78,20 @@ public class App extends Application {
         stage.show();
         
         // handle button event
-        
+        // anonymous inner class
+        button.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent t) {
+                String amt = amountTF.getText();
+                double amount = Double.parseDouble(amt);
+                double tipPercentage = (double) tipPercentageGroup.getSelectedToggle().getUserData();
+                double tip = amount * tipPercentage / 100;
+                double total = amount + tip;
+                tipTF.setText(String.format("%.2f", tip));
+                totalTF.setText(String.format("%.2f", total));
+            }
+            
+        });
         
     }
 
