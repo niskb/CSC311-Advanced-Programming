@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+
+<BorderPane xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bcs.csc311.lab3_drawing_shapes.PrimaryController">
+   <center>
+      <HBox prefHeight="550.0" prefWidth="890.0">
+         <children>
+            <Pane fx:id="pane" onMouseDragged="#paneOnMouseDragged" prefHeight="550.0" prefWidth="445.0" />
+            <Canvas fx:id="canvas" height="550.0" width="445.0" />
+         </children>
+      </HBox>
+   </center>
+</BorderPane>
