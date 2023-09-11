@@ -44,7 +44,7 @@ public class PrimaryController implements Initializable {
             int investmentAmount = Integer.parseInt(investmentAmountTF.getText());
             int numberOfYears = Integer.parseInt(numberOfYearsTF.getText());
             double annualInterestRate = Double.parseDouble(annualInterestRateTF.getText());
-            double futureValue = investmentAmount * (Math.pow(1 + (annualInterestRate / 100), (numberOfYears)));
+            double futureValue = investmentAmount * (Math.pow(1 + (annualInterestRate / 12 / 100), (numberOfYears * 12)));
             futureValueTF.setText(String.format("%.2f", futureValue));
         } catch (NumberFormatException numberFormatException) {
             futureValueTF.setText("Failure");
