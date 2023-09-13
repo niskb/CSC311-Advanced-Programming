@@ -1,17 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
 
 <BorderPane xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bcs.csc311.lab3_drawing_shapes.PrimaryController">
    <center>
       <HBox prefHeight="550.0" prefWidth="890.0">
          <children>
             <Pane fx:id="pane" onMouseDragged="#paneOnMouseDragged" prefHeight="550.0" prefWidth="445.0" />
-            <Canvas fx:id="canvas" height="550.0" width="445.0" />
+            <Canvas fx:id="canvas" height="550.0" onMouseDragged="#canvasOnMouseDragged" onMousePressed="#canvasOnMousePressed" onMouseReleased="#canvasOnMouseReleased" width="445.0" />
          </children>
       </HBox>
    </center>
+   <bottom>
+      <Button fx:id="clear_button" mnemonicParsing="false" onAction="#clearButtonHandler" text="Clear" BorderPane.alignment="CENTER" />
+   </bottom>
+   <top>
+      <HBox spacing="30.0" BorderPane.alignment="CENTER">
+         <children>
+            <ColorPicker fx:id="colorPicker" onAction="#colorPickerHandler">
+               <value>
+                  <Color blue="1.0" />
+               </value>
+            </ColorPicker>
+            <Slider fx:id="slider" majorTickUnit="2.0" max="10.0" minorTickCount="1" showTickLabels="true" showTickMarks="true" />
+         </children>
+      </HBox>
+   </top>
 </BorderPane>
