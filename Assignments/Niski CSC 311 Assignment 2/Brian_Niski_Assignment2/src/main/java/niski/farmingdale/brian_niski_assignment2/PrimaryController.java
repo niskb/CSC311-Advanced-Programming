@@ -203,10 +203,7 @@ public class PrimaryController {
      * @return
      */
     private boolean isSmallerPosition() {
-        if ((endX < startX) && (endY < startY)) {
-            return true;
-        } else {
-            return false;
-        }
+        return ((endX < startX) && (endY < startY));
     }
+
 }
