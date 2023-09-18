@@ -101,6 +101,6 @@
       </GridPane>
    </left>
    <center>
-      <Canvas fx:id="canvas" height="960.0" onMouseClicked="#canvasOnMouseClicked" onMouseDragged="#canvasOnMouseDragged" onMouseReleased="#canvasOnMouseReleased" width="920.0" BorderPane.alignment="CENTER" />
+      <Canvas fx:id="canvas" height="960.0" onMouseDragged="#canvasOnMouseDragged" onMousePressed="#canvasOnMousePressed" onMouseReleased="#canvasOnMouseReleased" width="920.0" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>

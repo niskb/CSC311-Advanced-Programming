@@ -42,10 +42,15 @@ public class PrimaryController {
     private Color penColor;
     private GraphicsContext gc;
     private byte selectedShapeCase;
+    private int selectedSize;
+    
+    /**
+     * Mouse event coordinates
+     */
     private double startX;
     private double startY;
-    private boolean isMouseClicked;
-    private int selectedSize;
+    private double endX;
+    private double endY;
     
     /**
      * Initialize the JavaFX UI controls
@@ -54,6 +59,7 @@ public class PrimaryController {
         // Method to get new value of the slider
         slider.valueProperty().addListener((observable, oldValue, newValue) -> {
             selectedSize = newValue.intValue();
+            gc.setLineWidth(selectedSize);
         });
         
         // Set default pen color to black
@@ -78,6 +84,7 @@ public class PrimaryController {
     @FXML
     private void colorPickerHandler(ActionEvent event) {
         penColor = colorPicker.getValue();
+        gc.setStroke(penColor);
     }
 
     /**
@@ -111,17 +118,17 @@ public class PrimaryController {
     }
 
     /**
-     * When the mouse is clicked in the canvas, get the starting x position and starting y position
+     * When the mouse is pressed in the canvas, get the starting x position and starting y position
      * Prepare the GraphicsContext's line width, pen color, and begin path
      * @param event 
      */
     @FXML
-    private void canvasOnMouseClicked(MouseEvent event) {
+    private void canvasOnMousePressed(MouseEvent event) {
         startX = event.getX();
         startY = event.getY();
-        gc.setLineWidth(selectedSize);
-        gc.setStroke(penColor);
-        gc.beginPath();
+        if(selectedShapeCase == 3) {
+            gc.beginPath();
+        }
     }
     
     /**
@@ -131,8 +138,6 @@ public class PrimaryController {
      */
     @FXML
     private void canvasOnMouseDragged(MouseEvent event) {
-        gc.setLineWidth(selectedSize);
-        gc.setStroke(penColor);
         if(selectedShapeCase == 3) {
             gc.lineTo(event.getX(), event.getY());
             gc.stroke();
@@ -144,23 +149,29 @@ public class PrimaryController {
      * If the selected shape case is lineRadioButton (0), the GraphicsContext is set for line drawing
      * If the selected shape case is rectangleRadioButton (1), the GraphicsContext is set for rectangle drawing
      * If the selected shape case is ovalRadioButton (2), the GraphicsContext is set for oval drawing
+     * If the selected shape case is freeDrawingRadioButton (3), the GraphicsContext is set for free drawing
      * @param event 
      */
     @FXML
     private void canvasOnMouseReleased(MouseEvent event) {
-        double endX = event.getX();
-        double endY = event.getY();
+        endX = event.getX();
+        endY = event.getY();
         if(selectedShapeCase == 0) {
             gc.strokeLine(startX, startY, endX, endY);
-            gc.stroke();
         } else if (selectedShapeCase == 1) {
-            // Use the absolute value so that the width and height is always positive for the rectangle
-            gc.strokeRect(startX, startY, Math.abs(endX - startX), Math.abs(endY - startY));
-            gc.stroke();
+            if((endX < startX) && (endY < startY)) {
+                gc.strokeRect(endX, endY, Math.abs(endX - startX), Math.abs(endY - startY));
+            } else {
+                gc.strokeRect(startX, startY, Math.abs(endX - startX), Math.abs(endY - startY));
+            }
         } else if (selectedShapeCase == 2) {
-            // Use the absolute value so that the width and height is always positive for the oval
-            gc.strokeOval(startX, startY,Math.abs(endX - startX), Math.abs(endY - startY));
-            gc.stroke();
+            if((endX < startX) && (endY < startY)) {
+                gc.strokeOval(endX, endY, Math.abs(endX - startX), Math.abs(endY - startY));
+            } else {
+                gc.strokeOval(startX, startY, Math.abs(endX - startX), Math.abs(endY - startY));
+            }
+        } else if (selectedShapeCase == 3) {
+            gc.closePath();
         }
     }
     
