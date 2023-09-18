@@ -19,7 +19,12 @@
       </HBox>
    </center>
    <bottom>
-      <Button fx:id="clear_button" mnemonicParsing="false" onAction="#clearButtonHandler" text="Clear" BorderPane.alignment="CENTER" />
+      <Pane BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="transformButton" layoutX="169.0" mnemonicParsing="false" onAction="#transformButtonHandler" text="Transform" />
+            <Button fx:id="clear_button" layoutX="424.0" mnemonicParsing="false" onAction="#clearButtonHandler" text="Clear" />
+         </children>
+      </Pane>
    </bottom>
    <top>
       <HBox spacing="30.0" BorderPane.alignment="CENTER">
@@ -29,7 +34,7 @@
                   <Color blue="1.0" />
                </value>
             </ColorPicker>
-            <Slider fx:id="slider" majorTickUnit="2.0" max="10.0" minorTickCount="1" showTickLabels="true" showTickMarks="true" />
+            <Slider fx:id="slider" majorTickUnit="1.0" max="10.0" min="1.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" />
          </children>
       </HBox>
    </top>

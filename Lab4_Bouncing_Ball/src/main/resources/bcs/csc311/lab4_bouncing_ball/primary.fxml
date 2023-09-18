@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
+
+
+<Pane fx:id="pane" prefHeight="480.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bcs.csc311.lab4_bouncing_ball.PrimaryController">
+   <children>
+      <Circle fx:id="ball" fill="DODGERBLUE" layoutX="360.0" layoutY="240.0" radius="28.0" stroke="BLACK" strokeType="INSIDE" />
+   </children>
+</Pane>
