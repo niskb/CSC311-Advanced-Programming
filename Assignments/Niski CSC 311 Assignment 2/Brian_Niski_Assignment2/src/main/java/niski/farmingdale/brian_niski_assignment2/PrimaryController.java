@@ -52,7 +52,7 @@ public class PrimaryController {
      */
     public void initialize() {
         // Method to get new value of the slider
-        slider.valueProperty().addListener((observable, newValue, oldValue) -> {
+        slider.valueProperty().addListener((observable, oldValue, newValue) -> {
             selectedSize = newValue.intValue();
         });
         

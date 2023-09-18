@@ -37,10 +37,11 @@ public class PrimaryController {
 
     public void initialize() {
         // handle value change of the slider
-        slider.valueProperty().addListener((ob, newValue, oldValue) -> {
+        slider.valueProperty().addListener((observable, oldValue, newValue) -> {
             lineWidth = newValue.doubleValue();
         });
         
+        // pane
         Circle circle = new Circle(50, 50, 20);
         circle.setFill(Color.BLUE);
         Line line = new Line(0, 0, 100, 100);
