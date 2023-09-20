@@ -23,21 +23,24 @@ public class PrimaryController {
     private Button stopButton;
     @FXML
     private MediaView mediaView;
-    
+
     private MediaPlayer mediaPlayer;
 
     public void initialize() {
 //      Image image = new Image("file:image/372x279.jpg");
-        Image image = new Image(new File("image/372x279.jpg").toURI().toString()); 
+        Image image = new Image(new File("image/372x279.jpg").toURI().toString());
         imageView.setImage(image);
-        
+
         Media media = new Media(new File("media/stock.mp4").toURI().toString());
         mediaPlayer = new MediaPlayer(media);
         mediaView.setMediaPlayer(mediaPlayer);
     }
-    
+
     @FXML
     private void playButtonHandler(ActionEvent event) {
+        if (mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
+            mediaPlayer.stop();
+        }
         mediaPlayer.play();
     }
 
@@ -51,6 +54,4 @@ public class PrimaryController {
         mediaPlayer.stop();
     }
 
-    
-    
 }
