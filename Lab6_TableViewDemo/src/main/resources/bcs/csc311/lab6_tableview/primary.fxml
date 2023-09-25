@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+
+<BorderPane prefHeight="480.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bcs.csc311.lab6_tableview.PrimaryController">
+   <center>
+      <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn fx:id="countryColumn" prefWidth="171.99998474121094" text="Country" />
+          <TableColumn fx:id="capitalColumn" minWidth="8.0" prefWidth="153.33334350585938" text="Capital" />
+            <TableColumn fx:id="populationColumn" minWidth="0.0" prefWidth="191.33331298828125" text="Population" />
+        </columns>
+      </TableView>
+   </center>
+   <left>
+      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <TextField fx:id="countryTF" layoutX="25.0" layoutY="95.0" />
+            <TextField fx:id="capitalTF" layoutX="25.0" layoutY="200.0" />
+            <TextField fx:id="populationTF" layoutX="25.0" layoutY="312.0" />
+            <Button fx:id="addButton" layoutX="61.0" layoutY="383.0" mnemonicParsing="false" onAction="#addButtonHandler" text="Add Record" />
+            <Button fx:id="clearButton" layoutX="79.0" layoutY="427.0" mnemonicParsing="false" onAction="#clearButtonHandler" text="Clear" />
+         </children>
+      </Pane>
+   </left>
+</BorderPane>
