@@ -47,23 +47,27 @@ public class PrimaryController {
     @FXML
     private void addButtonHandler(ActionEvent event) {
         try {
-        String country = countryTF.getText();
-        String capital = capitalTF.getText();
-        double population = Double.parseDouble(populationTF.getText());
+            String country = countryTF.getText();
+            String capital = capitalTF.getText();
+            double population = Double.parseDouble(populationTF.getText());
         
-        Country newCountry = new Country(country, capital, population);
-        myList.add(newCountry);
+            Country newCountry = new Country(country, capital, population);
+            myList.add(newCountry);
+            countryTF.clear();
+            capitalTF.clear();
+            populationTF.clear();
         } catch (Exception e) {
-            System.out.println("Fail");
+            System.out.println("Fail Add");
         }
     }
 
     @FXML
     private void clearButtonHandler(ActionEvent event) {
-        // Clear text fields
-        countryTF.clear();
-        capitalTF.clear();
-        populationTF.clear();
+        try {
+            tableView.getItems().clear();
+        } catch (Exception e) {
+            System.out.println("Fail Clear");
+        }
     }
     
 }
