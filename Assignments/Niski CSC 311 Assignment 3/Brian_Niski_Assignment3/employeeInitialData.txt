@@ -1,0 +1,6 @@
+Alice,Brown,98000
+Bob,Bush,75000
+Carl,Capra,82000
+David,Lieberman,120500
+John,Menchin,63000
+George,Smith,112800
