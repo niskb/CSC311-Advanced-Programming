@@ -22,6 +22,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 public class PrimaryController {
 
@@ -79,6 +80,7 @@ public class PrimaryController {
     private void openMenuItemOnAction(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File (System.getProperty("user.dir")));
+        fileChooser.getExtensionFilters().add(new ExtensionFilter("CSV", "*.CSV"));
         File selectedFile = fileChooser.showOpenDialog(null);
         if (selectedFile != null) {
             Scanner inFile = null;
@@ -108,6 +110,7 @@ public class PrimaryController {
     private void saveMenuItemOnAction(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File (System.getProperty("user.dir")));
+        fileChooser.getExtensionFilters().add(new ExtensionFilter("CSV", "*.CSV"));
         File selectedFile = fileChooser.showSaveDialog(null);
         String content = "";
         if (selectedFile != null) {
