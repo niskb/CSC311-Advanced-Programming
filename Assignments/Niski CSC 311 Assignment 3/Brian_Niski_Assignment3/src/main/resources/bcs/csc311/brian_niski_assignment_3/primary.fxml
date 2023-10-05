@@ -35,7 +35,19 @@
         </menus>
       </MenuBar>
    </top>
-   <center>
+   <bottom>
+      <HBox BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="statusLabel" text="Status: ">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="statusLabelText" />
+         </children>
+      </HBox>
+   </bottom>
+   <left>
       <HBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
             <GridPane>
@@ -104,17 +116,5 @@
             </GridPane>
          </children>
       </HBox>
-   </center>
-   <bottom>
-      <HBox BorderPane.alignment="CENTER">
-         <children>
-            <Label fx:id="statusLabel" text="Status: ">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <Label fx:id="statusLabelText" />
-         </children>
-      </HBox>
-   </bottom>
+   </left>
 </BorderPane>
