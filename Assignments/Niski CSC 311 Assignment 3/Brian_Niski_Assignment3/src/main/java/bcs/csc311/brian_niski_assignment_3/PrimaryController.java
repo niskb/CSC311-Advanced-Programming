@@ -223,6 +223,9 @@ public class PrimaryController {
             Alert alert = new Alert(AlertType.WARNING, alertText);
             alert.showAndWait();
             tableView.getItems().clear();
+            firstNameTextField.clear();
+            lastNameTextField.clear();
+            salaryTextField.clear();
             statusLabelText.setText("The table has been cleared");
         } catch (Exception e) {
             statusLabelText.setText("There was a failure in clearing the table");
