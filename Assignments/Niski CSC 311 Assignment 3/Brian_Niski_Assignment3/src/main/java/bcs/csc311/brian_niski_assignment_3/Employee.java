@@ -4,49 +4,52 @@
  */
 package bcs.csc311.brian_niski_assignment_3;
 
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+
 /**
  *
  * @author Brian
  */
 public class Employee {
-    
-    private String firstName;
-    private String lastName;
-    private double salary;
-    
+
+    private SimpleStringProperty firstName;
+    private SimpleStringProperty lastName;
+    private SimpleDoubleProperty salary;
+
     public Employee(String firstName, String lastName, double salary) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.salary = salary;
+        this.firstName = new SimpleStringProperty(firstName);
+        this.lastName = new SimpleStringProperty(lastName);
+        this.salary = new SimpleDoubleProperty(salary);
     }
-    
+
     public String getFirstName() {
-        return firstName;
+        return firstName.getValue();
     }
-    
+
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        this.firstName = new SimpleStringProperty(firstName);
     }
-    
+
     public String getLastName() {
-        return lastName;
+        return this.lastName.getValue();
     }
-    
+
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        this.lastName = new SimpleStringProperty(lastName);
     }
-    
+
     public double getSalary() {
-        return salary;
+        return salary.doubleValue();
     }
-    
+
     public void setSalary(double salary) {
-        this.salary = salary;
+        this.salary = new SimpleDoubleProperty(salary);
     }
-    
+
     @Override
     public String toString() {
-        return "Employee: [First Name: " + firstName + " Last Name: " + lastName + " Salary: $" + String.format("%.2f", Double.valueOf(salary)) + "]";
+        return "Employee: [First Name: " + firstName.getValue() + " Last Name: " + lastName.getValue() + " Salary: $" + String.format("%.2f", Double.valueOf(salary.doubleValue())) + "]";
     }
-    
+
 }
