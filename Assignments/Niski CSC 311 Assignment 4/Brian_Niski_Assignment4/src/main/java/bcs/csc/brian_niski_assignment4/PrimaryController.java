@@ -20,6 +20,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -168,6 +169,7 @@ public class PrimaryController {
         tableView.getSortOrder().clear();
         tableView.getSortOrder().add(firstNameTableColumn);
         tableView.sort();
+        statusLabelText.setText("Data sorted by First Name " + firstNameTableColumn.getSortType());
     }
 
     @FXML
@@ -180,6 +182,7 @@ public class PrimaryController {
         tableView.getSortOrder().clear();
         tableView.getSortOrder().add(lastNameTableColumn);
         tableView.sort();
+        statusLabelText.setText("Data sorted by Last Name " + lastNameTableColumn.getSortType());
     }
 
     @FXML
@@ -192,6 +195,7 @@ public class PrimaryController {
         tableView.getSortOrder().clear();
         tableView.getSortOrder().add(emailTableColumn);
         tableView.sort();
+        statusLabelText.setText("Data sorted by Email " + emailTableColumn.getSortType());
     }
 
     @FXML
@@ -204,6 +208,7 @@ public class PrimaryController {
         tableView.getSortOrder().clear();
         tableView.getSortOrder().add(phoneTableColumn);
         tableView.sort();
+        statusLabelText.setText("Data sorted by Phone " + phoneTableColumn.getSortType());
     }
 
     @FXML
@@ -216,6 +221,7 @@ public class PrimaryController {
         tableView.getSortOrder().clear();
         tableView.getSortOrder().add(salaryTableColumn);
         tableView.sort();
+        statusLabelText.setText("Data sorted by Salary " + salaryTableColumn.getSortType());
     }
 
     @FXML
@@ -230,11 +236,11 @@ public class PrimaryController {
 
     @FXML
     private void addEmployee(ActionEvent event) {
+        String errorMessage = "";
         try {
             statusLabelText.setText("Adding employee to the table...");
             boolean hasBlankString = false;
             boolean hasInvalidInput = false;
-            String errorMessage = "";
             String firstName = firstNameTextField.getText();
             if (firstName.equals("")) {
                 errorMessage += "No first name was entered.\n";
@@ -286,10 +292,11 @@ public class PrimaryController {
                         hasInvalidInput = true;
                     }
                 }
-                double salary = Double.parseDouble(salaryTextField.getText());
                 if (!hasInvalidInput) {
+                    double salary = Double.parseDouble(salaryTextField.getText());
                     Employee employee = new Employee(firstName, lastName, email, phone, salary);
                     myList.add(employee);
+                    tableView.getSelectionModel().clearSelection();
                     firstNameTextField.clear();
                     lastNameTextField.clear();
                     emailTextField.clear();
@@ -306,6 +313,7 @@ public class PrimaryController {
             }
         } catch (Exception e) {
             statusLabelText.setText("There was a failure to add an employee");
+            generateInvalidInputAlert(errorMessage);
         }
     }
 
@@ -376,6 +384,15 @@ public class PrimaryController {
         }
     }
 
+    private static boolean checkForMatchingString(String ob1, String ob2) {
+        return ob1.equals(ob2);
+    }
+
+    private static boolean checkForMatchingDouble(double ob1, double ob2) {
+        return Math.abs(ob1 - ob2) <= 0.000001;
+    }
+
+    // Extra Credit 1:
     @FXML
     private void removeDuplicates(ActionEvent event) {
         statusLabelText.setText("Removing duplicate(s) from the table...");
@@ -394,15 +411,112 @@ public class PrimaryController {
                 }
             }
         }
+        sortItemsByFirstName(null);
         statusLabelText.setText("Any duplicate(s) found were removed from the table");
     }
 
-    private static boolean checkForMatchingString(String ob1, String ob2) {
-        return ob1.equals(ob2);
+    // Extra Credit 2:
+    @FXML
+    private void enableEditEmployeeOnMousePress(MouseEvent event) {
+        int selectedIndex = -1;
+        try {
+            selectedIndex = tableView.getSelectionModel().getSelectedIndex();
+            firstNameTextField.setText(myList.get(selectedIndex).getFirstName());
+            lastNameTextField.setText(myList.get(selectedIndex).getLastName());
+            emailTextField.setText(myList.get(selectedIndex).getEmail());
+            phoneTextField.setText(myList.get(selectedIndex).getPhone());
+            salaryTextField.setText(String.valueOf(myList.get(selectedIndex).getSalary()));
+            statusLabelText.setText("An employee has been selected");
+        } catch (Exception e) {
+            if (selectedIndex == -1) {
+                statusLabelText.setText("An employee has not been selected");
+            }
+        }
     }
 
-    private static boolean checkForMatchingDouble(double ob1, double ob2) {
-        return Math.abs(ob1 - ob2) <= 0.000001;
+    @FXML
+    private void editEmployeee(ActionEvent event) {
+        String errorMessage = "";
+        try {
+            int selectedIndex = tableView.getSelectionModel().getSelectedIndex();
+            statusLabelText.setText("Editing selected employee from the table...");
+            boolean hasBlankString = false;
+            boolean hasInvalidInput = false;
+            String firstName = firstNameTextField.getText();
+            if (firstName.equals("")) {
+                errorMessage += "No first name was entered.\n";
+                hasBlankString = true;
+            }
+            if (!checkNameRegexMatch(firstName)) {
+                errorMessage += "Invalid first name. The first letter must be capital.\n";
+                hasInvalidInput = true;
+            }
+            String lastName = lastNameTextField.getText();
+            if (lastName.equals("")) {
+                errorMessage += "No last name was entered.\n";
+                hasBlankString = true;
+            }
+            if (!checkNameRegexMatch(lastName)) {
+                errorMessage += "Invalid last name. The first letter must be capital.\n";
+                hasInvalidInput = true;
+            }
+            String email = emailTextField.getText();
+            if (email.equals("")) {
+                errorMessage += "No email was entered.\n";
+                hasBlankString = true;
+            }
+            if (!checkEmailRegexMatch(email)) {
+                errorMessage += "Invalid email. The email must follow a simple email rule: string1@string2.domain.\nThe "
+                        + "string1 and string2 contain lowercase letters and digits. The domain contains 2 to 4 lowercase letters.\n";
+                hasInvalidInput = true;
+            }
+            String phone = phoneTextField.getText();
+            if (phone.equals("")) {
+                errorMessage += "No phone was entered.\n";
+                hasBlankString = true;
+            }
+            if (!checkPhoneRegexMatch(phone)) {
+                errorMessage += "Invalid phone. The phone must follow the format xxx-xxx-xxxx.\n";
+                hasInvalidInput = true;
+            }
+            if (salaryTextField.getText().equals("")) {
+                errorMessage += "No salary was entered.";
+                hasBlankString = true;
+            }
+            if (!hasBlankString) {
+                if (!checkSalaryRegexMatch(salaryTextField.getText())) {
+                    if (salaryTextField.getText().contains(".")) {
+                        errorMessage += "Invalid salary. The salary with decimal point only allows one or two decimal places.";
+                        hasInvalidInput = true;
+                    } else {
+                        errorMessage += "Invalid salary. The salary must contain digits.";
+                        hasInvalidInput = true;
+                    }
+                }
+                if (!hasInvalidInput) {
+                    double salary = Double.parseDouble(salaryTextField.getText());
+                    Employee employee = new Employee(firstName, lastName, email, phone, salary);
+                    myList.add(employee);
+                    tableView.getSelectionModel().clearSelection();
+                    tableView.getItems().remove(selectedIndex);
+                    firstNameTextField.clear();
+                    lastNameTextField.clear();
+                    emailTextField.clear();
+                    phoneTextField.clear();
+                    salaryTextField.clear();
+                    statusLabelText.setText("The selected employee has been edited");
+                } else {
+                    statusLabelText.setText("Unable to edit the selected employee");
+                    generateInvalidInputAlert(errorMessage);
+                }
+            } else {
+                statusLabelText.setText("Unable to edit the selected employee, or no employee was selected");
+                generateInvalidInputAlert(errorMessage);
+            }
+        } catch (Exception e) {
+            statusLabelText.setText("There was a failure to edit the selected employee, or no employee was selected");
+            generateInvalidInputAlert(errorMessage);
+        }
     }
 
 }
