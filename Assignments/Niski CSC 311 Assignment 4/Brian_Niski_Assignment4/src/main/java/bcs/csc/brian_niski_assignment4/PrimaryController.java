@@ -384,11 +384,11 @@ public class PrimaryController {
         }
     }
 
-    private static boolean checkForMatchingString(String ob1, String ob2) {
+    private static boolean checkForMatchingValue(String ob1, String ob2) {
         return ob1.equals(ob2);
     }
 
-    private static boolean checkForMatchingDouble(double ob1, double ob2) {
+    private static boolean checkForMatchingValue(double ob1, double ob2) {
         return Math.abs(ob1 - ob2) <= 0.000001;
     }
 
@@ -400,11 +400,11 @@ public class PrimaryController {
             Employee employee = tableView.getItems().get(i);
             for (int j = 0; j < tableView.getItems().size(); j++) {
                 if (i != j) {
-                    boolean firstNameIsEqual = checkForMatchingString(employee.getFirstName(), tableView.getItems().get(j).getFirstName());
-                    boolean lastNameIsEqual = checkForMatchingString(employee.getLastName(), tableView.getItems().get(j).getLastName());
-                    boolean emailIsEqual = checkForMatchingString(employee.getEmail(), tableView.getItems().get(j).getEmail());
-                    boolean phoneIsEqual = checkForMatchingString(employee.getPhone(), tableView.getItems().get(j).getPhone());
-                    boolean salaryIsEqual = checkForMatchingDouble(employee.getSalary(), tableView.getItems().get(j).getSalary());
+                    boolean firstNameIsEqual = checkForMatchingValue(employee.getFirstName(), tableView.getItems().get(j).getFirstName());
+                    boolean lastNameIsEqual = checkForMatchingValue(employee.getLastName(), tableView.getItems().get(j).getLastName());
+                    boolean emailIsEqual = checkForMatchingValue(employee.getEmail(), tableView.getItems().get(j).getEmail());
+                    boolean phoneIsEqual = checkForMatchingValue(employee.getPhone(), tableView.getItems().get(j).getPhone());
+                    boolean salaryIsEqual = checkForMatchingValue(employee.getSalary(), tableView.getItems().get(j).getSalary());
                     if (firstNameIsEqual && lastNameIsEqual && emailIsEqual && phoneIsEqual && salaryIsEqual) {
                         tableView.getItems().remove(tableView.getItems().get(j));
                     }
