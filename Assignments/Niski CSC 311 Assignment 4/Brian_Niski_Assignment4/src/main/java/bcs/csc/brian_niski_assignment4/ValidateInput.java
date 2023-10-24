@@ -16,17 +16,17 @@ public class ValidateInput {
     }
 
     public static boolean checkEmailRegexMatch(String email) {
-        final String emailRegex = "[a-z0-9]+@[a-z0-9]+.[a-z]{2,4}";
+        final String emailRegex = "[a-z0-9]+@[a-z0-9]+[.][a-z]{2,4}";
         return email.matches(emailRegex);
     }
 
     public static boolean checkPhoneRegexMatch(String phone) {
-        final String phoneRegex = "\\d{3}-\\d{3}-\\d{4}";
+        final String phoneRegex = "\\d{3}[-]\\d{3}[-]\\d{4}";
         return phone.matches(phoneRegex);
     }
 
     public static boolean checkSalaryRegexMatch(String salaryText) {
-        final String salaryRegexWithDecimalPlaces = "[0-9]+.[0-9]{1,2}";
+        final String salaryRegexWithDecimalPlaces = "[0-9]+[.][0-9]{1,2}";
         if (salaryText.matches(salaryRegexWithDecimalPlaces)) {
             return true;
         } else {
