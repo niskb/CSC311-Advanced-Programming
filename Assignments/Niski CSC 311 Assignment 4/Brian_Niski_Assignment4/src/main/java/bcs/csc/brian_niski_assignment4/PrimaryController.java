@@ -246,7 +246,7 @@ public class PrimaryController {
                 errorMessage += "No first name was entered.\n";
                 hasBlankString = true;
             }
-            if (!checkNameRegexMatch(firstName)) {
+            if (!ValidateInput.checkNameRegexMatch(firstName)) {
                 errorMessage += "Invalid first name. The first letter must be capital.\n";
                 hasInvalidInput = true;
             }
@@ -255,7 +255,7 @@ public class PrimaryController {
                 errorMessage += "No last name was entered.\n";
                 hasBlankString = true;
             }
-            if (!checkNameRegexMatch(lastName)) {
+            if (!ValidateInput.checkNameRegexMatch(lastName)) {
                 errorMessage += "Invalid last name. The first letter must be capital.\n";
                 hasInvalidInput = true;
             }
@@ -264,7 +264,7 @@ public class PrimaryController {
                 errorMessage += "No email was entered.\n";
                 hasBlankString = true;
             }
-            if (!checkEmailRegexMatch(email)) {
+            if (!ValidateInput.checkEmailRegexMatch(email)) {
                 errorMessage += "Invalid email. The email must follow a simple email rule: string1@string2.domain.\nThe "
                         + "string1 and string2 contain lowercase letters and digits. The domain contains 2 to 4 lowercase letters.\n";
                 hasInvalidInput = true;
@@ -274,7 +274,7 @@ public class PrimaryController {
                 errorMessage += "No phone was entered.\n";
                 hasBlankString = true;
             }
-            if (!checkPhoneRegexMatch(phone)) {
+            if (!ValidateInput.checkPhoneRegexMatch(phone)) {
                 errorMessage += "Invalid phone. The phone must follow the format xxx-xxx-xxxx.\n";
                 hasInvalidInput = true;
             }
@@ -283,7 +283,7 @@ public class PrimaryController {
                 hasBlankString = true;
             }
             if (!hasBlankString) {
-                if (!checkSalaryRegexMatch(salaryTextField.getText())) {
+                if (!ValidateInput.checkSalaryRegexMatch(salaryTextField.getText())) {
                     if (salaryTextField.getText().contains(".")) {
                         errorMessage += "Invalid salary. The salary with decimal point only allows one or two decimal places.";
                         hasInvalidInput = true;
@@ -315,34 +315,6 @@ public class PrimaryController {
             statusLabelText.setText("There was a failure to add an employee");
             generateInvalidInputAlert(errorMessage);
         }
-    }
-
-    private static boolean checkNameRegexMatch(String name) {
-        final String nameRegex = "[A-Z][a-z]*";
-        return name.matches(nameRegex);
-    }
-
-    private static boolean checkEmailRegexMatch(String email) {
-        final String emailRegex = "[a-z0-9]+@[a-z0-9]+.[a-z]{2,4}";
-        return email.matches(emailRegex);
-    }
-
-    private static boolean checkPhoneRegexMatch(String phone) {
-        final String phoneRegex = "\\d{3}-\\d{3}-\\d{4}";
-        return phone.matches(phoneRegex);
-    }
-
-    private static boolean checkSalaryRegexMatch(String salaryText) {
-        final String salaryRegexWithDecimalPlaces = "[0-9]+.[0-9]{1,2}";
-        if (salaryText.matches(salaryRegexWithDecimalPlaces)) {
-            return true;
-        } else {
-            final String salaryRegex = "[0-9]+";
-            if (salaryText.matches(salaryRegex)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private static void generateInvalidInputAlert(String errorMessage) {
@@ -384,14 +356,6 @@ public class PrimaryController {
         }
     }
 
-    private static boolean checkForMatchingValue(String ob1, String ob2) {
-        return ob1.equals(ob2);
-    }
-
-    private static boolean checkForMatchingValue(double ob1, double ob2) {
-        return Math.abs(ob1 - ob2) <= 0.000001;
-    }
-
     // Extra Credit 1:
     @FXML
     private void removeDuplicates(ActionEvent event) {
@@ -400,11 +364,11 @@ public class PrimaryController {
             Employee employee = tableView.getItems().get(i);
             for (int j = 0; j < tableView.getItems().size(); j++) {
                 if (i != j) {
-                    boolean firstNameIsEqual = checkForMatchingValue(employee.getFirstName(), tableView.getItems().get(j).getFirstName());
-                    boolean lastNameIsEqual = checkForMatchingValue(employee.getLastName(), tableView.getItems().get(j).getLastName());
-                    boolean emailIsEqual = checkForMatchingValue(employee.getEmail(), tableView.getItems().get(j).getEmail());
-                    boolean phoneIsEqual = checkForMatchingValue(employee.getPhone(), tableView.getItems().get(j).getPhone());
-                    boolean salaryIsEqual = checkForMatchingValue(employee.getSalary(), tableView.getItems().get(j).getSalary());
+                    boolean firstNameIsEqual = ValidateInput.checkForMatchingValue(employee.getFirstName(), tableView.getItems().get(j).getFirstName());
+                    boolean lastNameIsEqual = ValidateInput.checkForMatchingValue(employee.getLastName(), tableView.getItems().get(j).getLastName());
+                    boolean emailIsEqual = ValidateInput.checkForMatchingValue(employee.getEmail(), tableView.getItems().get(j).getEmail());
+                    boolean phoneIsEqual = ValidateInput.checkForMatchingValue(employee.getPhone(), tableView.getItems().get(j).getPhone());
+                    boolean salaryIsEqual = ValidateInput.checkForMatchingValue(employee.getSalary(), tableView.getItems().get(j).getSalary());
                     if (firstNameIsEqual && lastNameIsEqual && emailIsEqual && phoneIsEqual && salaryIsEqual) {
                         tableView.getItems().remove(tableView.getItems().get(j));
                     }
@@ -447,7 +411,7 @@ public class PrimaryController {
                 errorMessage += "No first name was entered.\n";
                 hasBlankString = true;
             }
-            if (!checkNameRegexMatch(firstName)) {
+            if (!ValidateInput.checkNameRegexMatch(firstName)) {
                 errorMessage += "Invalid first name. The first letter must be capital.\n";
                 hasInvalidInput = true;
             }
@@ -456,7 +420,7 @@ public class PrimaryController {
                 errorMessage += "No last name was entered.\n";
                 hasBlankString = true;
             }
-            if (!checkNameRegexMatch(lastName)) {
+            if (!ValidateInput.checkNameRegexMatch(lastName)) {
                 errorMessage += "Invalid last name. The first letter must be capital.\n";
                 hasInvalidInput = true;
             }
@@ -465,7 +429,7 @@ public class PrimaryController {
                 errorMessage += "No email was entered.\n";
                 hasBlankString = true;
             }
-            if (!checkEmailRegexMatch(email)) {
+            if (!ValidateInput.checkEmailRegexMatch(email)) {
                 errorMessage += "Invalid email. The email must follow a simple email rule: string1@string2.domain.\nThe "
                         + "string1 and string2 contain lowercase letters and digits. The domain contains 2 to 4 lowercase letters.\n";
                 hasInvalidInput = true;
@@ -475,7 +439,7 @@ public class PrimaryController {
                 errorMessage += "No phone was entered.\n";
                 hasBlankString = true;
             }
-            if (!checkPhoneRegexMatch(phone)) {
+            if (!ValidateInput.checkPhoneRegexMatch(phone)) {
                 errorMessage += "Invalid phone. The phone must follow the format xxx-xxx-xxxx.\n";
                 hasInvalidInput = true;
             }
@@ -484,7 +448,7 @@ public class PrimaryController {
                 hasBlankString = true;
             }
             if (!hasBlankString) {
-                if (!checkSalaryRegexMatch(salaryTextField.getText())) {
+                if (!ValidateInput.checkSalaryRegexMatch(salaryTextField.getText())) {
                     if (salaryTextField.getText().contains(".")) {
                         errorMessage += "Invalid salary. The salary with decimal point only allows one or two decimal places.";
                         hasInvalidInput = true;
