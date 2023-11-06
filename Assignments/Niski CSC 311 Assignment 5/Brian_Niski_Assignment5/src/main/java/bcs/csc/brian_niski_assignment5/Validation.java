@@ -11,12 +11,15 @@ package bcs.csc.brian_niski_assignment5;
 public class Validation {
 
     public static boolean validateFirstName(String firstName) {
-        final String nameRegex = "[A-Z][a-z]*";
+        final String nameRegex = "[A-Z][a-z]+";
         return firstName.matches(nameRegex);
     }
-    
+
     public static boolean validateLastName(String lastName) {
-        final String nameRegex = "[A-Z][a-z]*";
+        final String nameRegex = "[A-Z][a-z]*(['-]?[A-Z][a-z]+)*";
+        if ((lastName.charAt(lastName.length() - 1) == '\'') || (lastName.charAt(lastName.length() - 1) == '-')) {
+            return false;
+        }
         return lastName.matches(nameRegex);
     }
 

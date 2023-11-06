@@ -30,13 +30,9 @@ public class PrimaryController {
     @FXML
     private MenuBar fileMenuBar;
     @FXML
-    private Menu fileMenu;
-    @FXML
     private MenuItem openFileMenuItem;
     @FXML
     private MenuItem saveFileMenuItem;
-    @FXML
-    private MenuItem closeFileMenuItem;
     @FXML
     private Menu sortMenu;
     @FXML
@@ -89,6 +85,12 @@ public class PrimaryController {
     private Button removeDuplicatesButton;
 
     private ObservableList<Employee> myList = FXCollections.observableArrayList();
+    @FXML
+    private Menu fileMenu;
+    @FXML
+    private MenuItem createTableMenuItem;
+    @FXML
+    private MenuItem closeFileMenuItem;
 
     public void initialize() {
         firstNameTableColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("firstName"));
@@ -97,6 +99,11 @@ public class PrimaryController {
         phoneTableColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("phone"));
         salaryTableColumn.setCellValueFactory(new PropertyValueFactory<Employee, Double>("salary"));
         tableView.setItems(myList);
+    }
+
+    @FXML
+    private void createTable(ActionEvent event) {
+        //
     }
 
     @FXML
@@ -356,7 +363,6 @@ public class PrimaryController {
         }
     }
 
-    // Extra Credit 1:
     @FXML
     private void removeDuplicates(ActionEvent event) {
         statusLabelText.setText("Removing duplicate(s) from the table...");
@@ -379,7 +385,6 @@ public class PrimaryController {
         statusLabelText.setText("Any duplicate(s) found were removed from the table");
     }
 
-    // Extra Credit 2:
     @FXML
     private void enableEditEmployeeOnMousePress(MouseEvent event) {
         int selectedIndex = -1;
