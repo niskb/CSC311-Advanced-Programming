@@ -91,6 +91,8 @@ public class PrimaryController {
     private MenuItem createTableMenuItem;
     @FXML
     private MenuItem closeFileMenuItem;
+    @FXML
+    private Button listEmployeesButton;
 
     public void initialize() {
         firstNameTableColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("firstName"));
@@ -103,6 +105,11 @@ public class PrimaryController {
 
     @FXML
     private void createTable(ActionEvent event) {
+        //
+    }
+
+    @FXML
+    private void listEmployeesButtonOnAction(ActionEvent event) {
         //
     }
 

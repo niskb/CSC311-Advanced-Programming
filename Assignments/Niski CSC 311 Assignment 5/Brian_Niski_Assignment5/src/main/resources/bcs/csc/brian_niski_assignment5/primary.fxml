@@ -79,22 +79,29 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TextField fx:id="firstNameTextField" promptText="First Name" />
-                  <TextField fx:id="lastNameTextField" promptText="Last Name" GridPane.rowIndex="1" />
-                  <TextField fx:id="emailTextField" promptText="Email" GridPane.rowIndex="2" />
-                  <TextField fx:id="phoneTextField" promptText="Phone (XXX-XXX-XXXX)" GridPane.rowIndex="3" />
-                  <TextField fx:id="salaryTextField" promptText="Salary" GridPane.rowIndex="4" />
-                  <Button fx:id="addEmployeeButton" mnemonicParsing="false" onAction="#addEmployee" text="Add Employee" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
-                  <Button mnemonicParsing="false" onAction="#editEmployeee" text="Edit Employee" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
-                  <Button fx:id="deleteEmployeeButton" mnemonicParsing="false" onAction="#deleteEmployee" text="Delete Employee" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
-                  <Button fx:id="clearAllButton" mnemonicParsing="false" onAction="#clearAll" text="Clear All" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
-                  <Button fx:id="removeDuplicatesButton" mnemonicParsing="false" onAction="#removeDuplicates" text="Remove Duplicates" GridPane.halignment="CENTER" GridPane.rowIndex="9" />
+                  <TextField fx:id="firstNameTextField" promptText="First Name" GridPane.rowIndex="4" />
+                  <TextField fx:id="lastNameTextField" promptText="Last Name" GridPane.rowIndex="5" />
+                  <TextField fx:id="emailTextField" promptText="Email" GridPane.rowIndex="6" />
+                  <TextField fx:id="phoneTextField" promptText="Phone (XXX-XXX-XXXX)" GridPane.rowIndex="7" />
+                  <TextField fx:id="salaryTextField" promptText="Salary" GridPane.rowIndex="8" />
+                  <Button fx:id="addEmployeeButton" mnemonicParsing="false" onAction="#addEmployee" text="Add Employee" GridPane.halignment="CENTER" GridPane.rowIndex="10" />
+                  <Button mnemonicParsing="false" onAction="#editEmployeee" text="Edit Employee" GridPane.halignment="CENTER" GridPane.rowIndex="11" />
+                  <Button fx:id="deleteEmployeeButton" mnemonicParsing="false" onAction="#deleteEmployee" text="Delete Employee" GridPane.halignment="CENTER" GridPane.rowIndex="12" />
+                  <Button fx:id="clearAllButton" mnemonicParsing="false" onAction="#clearAll" text="Clear All" GridPane.halignment="CENTER" GridPane.rowIndex="13" />
+                  <Button fx:id="removeDuplicatesButton" mnemonicParsing="false" onAction="#removeDuplicates" text="Remove Duplicates" GridPane.halignment="CENTER" GridPane.rowIndex="14" />
+                  <Label text="Operations" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                  <Button fx:id="listEmployeesButton" mnemonicParsing="false" onAction="#listEmployeesButtonOnAction" text="List Employees" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
                </children>
             </GridPane>
          </children>
