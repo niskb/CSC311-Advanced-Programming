@@ -34,16 +34,8 @@ public class Validation {
     }
 
     public static boolean validateSalary(String salaryText) {
-        final String salaryRegexWithDecimalPlaces = "[0-9]+[.][0-9]{1,2}";
-        if (salaryText.matches(salaryRegexWithDecimalPlaces)) {
-            return true;
-        } else {
-            final String salaryRegex = "[0-9]+";
-            if (salaryText.matches(salaryRegex)) {
-                return true;
-            }
-        }
-        return false;
+        final String salaryRegexWithDecimalPlaces = "[0-9]+([.][0-9]{0,2})?";
+        return salaryText.matches(salaryRegexWithDecimalPlaces);
     }
 
     public static boolean checkForMatchingValue(String ob1, String ob2) {

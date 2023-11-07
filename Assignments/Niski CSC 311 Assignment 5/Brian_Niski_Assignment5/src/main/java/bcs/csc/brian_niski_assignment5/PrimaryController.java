@@ -236,7 +236,7 @@ public class PrimaryController {
         Alert aboutAlert = new Alert(AlertType.INFORMATION);
         aboutAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         aboutAlert.setTitle("About");
-        aboutAlert.setHeaderText("Assignment 4 by Brian Niski");
+        aboutAlert.setHeaderText("Assignment 5 by Brian Niski");
         aboutAlert.setContentText("I certify this submission is my original work.");
         aboutAlert.showAndWait();
     }
@@ -292,7 +292,7 @@ public class PrimaryController {
             if (!hasBlankString) {
                 if (!Validation.validateSalary(salaryTextField.getText())) {
                     if (salaryTextField.getText().contains(".")) {
-                        errorMessage += "Invalid salary. The salary with decimal point only allows one or two decimal places.";
+                        errorMessage += "Invalid salary. The salary with decimal point only allows up to two decimal places.";
                         hasInvalidInput = true;
                     } else {
                         errorMessage += "Invalid salary. The salary must contain digits.";
@@ -455,7 +455,7 @@ public class PrimaryController {
             if (!hasBlankString) {
                 if (!Validation.validateSalary(salaryTextField.getText())) {
                     if (salaryTextField.getText().contains(".")) {
-                        errorMessage += "Invalid salary. The salary with decimal point only allows one or two decimal places.";
+                        errorMessage += "Invalid salary. The salary with decimal point only allows up to two decimal places.";
                         hasInvalidInput = true;
                     } else {
                         errorMessage += "Invalid salary. The salary must contain digits.";
