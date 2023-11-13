@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
@@ -100,6 +101,30 @@ public class EmployeeDBController {
             }
             outFile.close();
             statusLabelText.setText("Saved file to " + selectedFile.getAbsolutePath());
+        }
+    }
+    
+    public static void listRecords(ObservableList<Employee> myList, Label statusLabelText) {
+        try {
+            statusLabelText.setText("Listing employees from " + DB_URL + "...");
+            Connection connection = DriverManager.getConnection(DB_URL);
+            Statement stmt = connection.createStatement();
+            String query = "SELECT * FROM employee";
+            ResultSet result = stmt.executeQuery(query);
+            String firstName, lastName, email, phone;
+            double salary;
+            while (result.next()) {
+                firstName = result.getString("First_Name");
+                lastName = result.getString("Last_Name");
+                email = result.getString("Email");
+                phone = result.getString("Phone");
+                salary = result.getDouble("Salary");
+                myList.add(new Employee(firstName, lastName, email, phone, salary));
+            }
+            connection.close();
+            statusLabelText.setText("Listed employees from " + DB_URL + "");
+        } catch (SQLException ex) {
+            statusLabelText.setText("There was a failure reading the database for listing records");
         }
     }
 

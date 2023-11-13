@@ -110,7 +110,7 @@ public class PrimaryController {
 
     @FXML
     private void listEmployeesButtonOnAction(ActionEvent event) {
-        //
+        EmployeeDBController.listRecords(myList, statusLabelText);
     }
 
     @FXML
