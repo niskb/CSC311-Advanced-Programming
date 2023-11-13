@@ -95,7 +95,7 @@ public class PrimaryController {
 
     @FXML
     private void createTable(ActionEvent event) {
-        EmployeeDBController.createTable(true);
+        EmployeeDBController.createTable(true, statusLabelText);
     }
 
     @FXML
@@ -120,7 +120,7 @@ public class PrimaryController {
 
     @FXML
     private void deleteEmployee(ActionEvent event) {
-        EmployeeDBController.deleteRecord(statusLabelText, tableView);
+        EmployeeDBController.deleteRecord(statusLabelText, tableView, myList);
     }
 
     // Extra Credit 1

@@ -9,10 +9,13 @@ import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -29,7 +32,7 @@ public class EmployeeDBController {
 
     private static final String DB_URL = "jdbc:derby:EmployeeDB";
 
-    public static void createTable(boolean isCreated) {
+    public static void createTable(boolean isCreated, Label statusLabelText) {
         try {
             Connection connection = DriverManager.getConnection(DB_URL + "; create=true");
             Statement statement = connection.createStatement();
@@ -44,10 +47,9 @@ public class EmployeeDBController {
                     + "Salary DOUBLE)";
             statement.execute(query);
             connection.close();
-            System.out.println("Connected to " + DB_URL + "!");
+            statusLabelText.setText("Connected to " + DB_URL + "!");
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
+            statusLabelText.setText("Unable to connect to " + DB_URL);
         }
     }
 
@@ -70,11 +72,21 @@ public class EmployeeDBController {
                     String email = splitByComma[2];
                     String phone = splitByComma[3];
                     double salary = Double.parseDouble(splitByComma[4]);
-                    Employee employee = new Employee(firstName, lastName, email, phone, salary);
-                    myList.add(employee);
+                    Connection connection = DriverManager.getConnection(DB_URL);
+                    String query = "INSERT INTO employee (First_Name, Last_Name, Email, Phone, Salary) VALUES (?, ?, ?, ?, ?)";
+                    PreparedStatement preparedStatement = connection.prepareStatement(query);
+                    preparedStatement.setString(1, firstName);
+                    preparedStatement.setString(2, lastName);
+                    preparedStatement.setString(3, email);
+                    preparedStatement.setString(4, phone);
+                    preparedStatement.setDouble(5, salary);
+                    preparedStatement.executeUpdate();
+                    connection.close();
                 }
             } catch (FileNotFoundException ex) {
-                ex.printStackTrace();
+                statusLabelText.setText("Unable to load file");
+            } catch (SQLException ex) {
+                statusLabelText.setText("Unable to connect to database");
             }
             inFile.close();
             statusLabelText.setText("Loaded file from " + selectedFile.getAbsolutePath());
@@ -103,7 +115,7 @@ public class EmployeeDBController {
             statusLabelText.setText("Saved file to " + selectedFile.getAbsolutePath());
         }
     }
-    
+
     public static void listRecords(ObservableList<Employee> myList, Label statusLabelText) {
         try {
             statusLabelText.setText("Listing employees from " + DB_URL + "...");
@@ -210,13 +222,18 @@ public class EmployeeDBController {
         }
     }
 
-    public static void deleteRecord(Label statusLabelText, TableView tableView) {
+    public static void deleteRecord(Label statusLabelText, TableView tableView, ObservableList<Employee> myList) {
         try {
             statusLabelText.setText("Deleting selected employee...");
             int selectedIndex = tableView.getSelectionModel().getSelectedIndex();
+            String selectedEmail = myList.get(selectedIndex).getEmail();
             tableView.getItems().remove(selectedIndex);
             tableView.getSelectionModel().clearSelection();
-            statusLabelText.setText("The selected employee has been deleted");
+            Connection connection = DriverManager.getConnection(DB_URL);
+            Statement statement = connection.createStatement();
+            String query = "DELETE FROM employee WHERE Email = '" + selectedEmail + "'";
+            statement.executeUpdate(query);
+            statusLabelText.setText("The selected employee, with email " + selectedEmail + ", has been deleted");
         } catch (Exception e) {
             statusLabelText.setText("There was a failure to removing the selected employee, or no employee was selected");
         }
