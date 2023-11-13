@@ -199,14 +199,22 @@ public class EmployeeDBController {
                 }
                 if (!hasInvalidInput) {
                     double salary = Double.parseDouble(salaryTextField.getText());
-                    Employee employee = new Employee(firstName, lastName, email, phone, salary);
-                    myList.add(employee);
                     tableView.getSelectionModel().clearSelection();
                     firstNameTextField.clear();
                     lastNameTextField.clear();
                     emailTextField.clear();
                     phoneTextField.clear();
                     salaryTextField.clear();
+                    Connection connection = DriverManager.getConnection(DB_URL);
+                    String query = "INSERT INTO employee (First_Name, Last_Name, Email, Phone, Salary) VALUES (?, ?, ?, ?, ?)";
+                    PreparedStatement preparedStatement = connection.prepareStatement(query);
+                    preparedStatement.setString(1, firstName);
+                    preparedStatement.setString(2, lastName);
+                    preparedStatement.setString(3, email);
+                    preparedStatement.setString(4, phone);
+                    preparedStatement.setDouble(5, salary);
+                    preparedStatement.executeUpdate();
+                    connection.close();
                     statusLabelText.setText("An employee has been added");
                 } else {
                     statusLabelText.setText("Unable to add employee to the table");
