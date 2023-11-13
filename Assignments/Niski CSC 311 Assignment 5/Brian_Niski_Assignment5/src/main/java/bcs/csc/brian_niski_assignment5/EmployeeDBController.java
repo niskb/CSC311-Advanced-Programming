@@ -241,6 +241,8 @@ public class EmployeeDBController {
             Statement statement = connection.createStatement();
             String query = "DELETE FROM employee WHERE Email = '" + selectedEmail + "'";
             statement.executeUpdate(query);
+            tableView.getItems().clear();
+            listRecords(myList, statusLabelText);
             statusLabelText.setText("The selected employee, with email " + selectedEmail + ", has been deleted");
         } catch (Exception e) {
             statusLabelText.setText("There was a failure to removing the selected employee, or no employee was selected");
