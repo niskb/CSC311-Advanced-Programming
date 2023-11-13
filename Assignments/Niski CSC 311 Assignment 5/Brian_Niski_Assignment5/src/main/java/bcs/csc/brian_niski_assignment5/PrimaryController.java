@@ -73,10 +73,6 @@ public class PrimaryController {
     private Button addEmployeeButton;
     @FXML
     private Button deleteEmployeeButton;
-    @FXML
-    private Button clearAllButton;
-    @FXML
-    private Button removeDuplicatesButton;
 
     private ObservableList<Employee> myList = FXCollections.observableArrayList();
     @FXML
@@ -213,45 +209,7 @@ public class PrimaryController {
         aboutAlert.showAndWait();
     }
 
-    @FXML
-    private void clearAll(ActionEvent event) {
-        try {
-            statusLabelText.setText("Clearing the table...");
-            ObservableList<Employee> toBeCleared = tableView.getItems();
-            tableView.getItems().clear();
-            firstNameTextField.clear();
-            lastNameTextField.clear();
-            emailTextField.clear();
-            phoneTextField.clear();
-            salaryTextField.clear();
-            statusLabelText.setText("The table has been cleared");
-        } catch (Exception e) {
-            statusLabelText.setText("There was a failure in clearing the table");
-        }
-    }
-
-    @FXML
-    private void removeDuplicates(ActionEvent event) {
-        statusLabelText.setText("Removing duplicate(s) from the table...");
-        for (int i = 0; i < tableView.getItems().size(); i++) {
-            Employee employee = tableView.getItems().get(i);
-            for (int j = 0; j < tableView.getItems().size(); j++) {
-                if (i != j) {
-                    boolean firstNameIsEqual = Validation.checkForMatchingValue(employee.getFirstName(), tableView.getItems().get(j).getFirstName());
-                    boolean lastNameIsEqual = Validation.checkForMatchingValue(employee.getLastName(), tableView.getItems().get(j).getLastName());
-                    boolean emailIsEqual = Validation.checkForMatchingValue(employee.getEmail(), tableView.getItems().get(j).getEmail());
-                    boolean phoneIsEqual = Validation.checkForMatchingValue(employee.getPhone(), tableView.getItems().get(j).getPhone());
-                    boolean salaryIsEqual = Validation.checkForMatchingValue(employee.getSalary(), tableView.getItems().get(j).getSalary());
-                    if (firstNameIsEqual && lastNameIsEqual && emailIsEqual && phoneIsEqual && salaryIsEqual) {
-                        tableView.getItems().remove(tableView.getItems().get(j));
-                    }
-                }
-            }
-        }
-        sortItemsByFirstName(null);
-        statusLabelText.setText("Any duplicate(s) found were removed from the table");
-    }
-
+    // Extra Credit 1
     @FXML
     private void enableEditEmployeeOnMousePress(MouseEvent event) {
         int selectedIndex = -1;
