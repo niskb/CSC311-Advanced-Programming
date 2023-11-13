@@ -105,7 +105,7 @@ public class PrimaryController {
 
     @FXML
     private void createTable(ActionEvent event) {
-        //
+        EmployeeDBController.createTable(true);
     }
 
     @FXML
