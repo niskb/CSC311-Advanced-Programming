@@ -224,15 +224,21 @@ public class EmployeeDBController {
                     statusLabelText.setText("An employee has been added");
                 } else {
                     statusLabelText.setText("Unable to add employee to the table");
-                    generateInvalidInputAlert(errorMessage);
+                    if (!errorMessage.equals("")) {
+                        generateInvalidInputAlert(errorMessage);
+                    }
                 }
             } else {
                 statusLabelText.setText("Unable to add employee to the table");
-                generateInvalidInputAlert(errorMessage);
+                if (!errorMessage.equals("")) {
+                    generateInvalidInputAlert(errorMessage);
+                }
             }
         } catch (Exception e) {
             statusLabelText.setText("There was a failure to add an employee");
-            generateInvalidInputAlert(errorMessage);
+            if (!errorMessage.equals("")) {
+                generateInvalidInputAlert(errorMessage);
+            }
         }
     }
 
@@ -291,11 +297,8 @@ public class EmployeeDBController {
             if (email.equals("")) {
                 errorMessage += "No email was entered.\n";
                 hasBlankString = true;
-            } // Extra Credit 2 //
-            else if (Validation.scanDatabaseForMatchingEmail(DB_URL, email, statusLabelText)) {
-                errorMessage += "This email already exists in the table.\n";
-                hasInvalidInput = true;
-            } else if (!Validation.validateEmail(email)) {
+            }
+            if (!Validation.validateEmail(email)) {
                 errorMessage += "Invalid email. The email must follow a simple email rule: string1@string2.domain.\nThe "
                         + "string1 and string2 contain lowercase letters and digits. The domain contains 2 to 4 lowercase letters.\n";
                 hasInvalidInput = true;
@@ -325,7 +328,6 @@ public class EmployeeDBController {
                 if (!hasInvalidInput) {
                     double salary = Double.parseDouble(salaryTextField.getText());
                     deleteRecord(statusLabelText, tableView, myList, firstNameTextField, lastNameTextField, emailTextField, phoneTextField, salaryTextField);
-                    tableView.getItems().remove(selectedIndex);
                     addRecord(statusLabelText, firstNameTextField, lastNameTextField, emailTextField, phoneTextField, salaryTextField, myList, tableView);
                     listRecords(tableView, myList, statusLabelText);
                     statusLabelText.setText("The selected employee has been edited");
@@ -335,11 +337,15 @@ public class EmployeeDBController {
                 }
             } else {
                 statusLabelText.setText("Unable to edit the selected employee, or no employee was selected");
-                generateInvalidInputAlert(errorMessage);
+                if (!errorMessage.equals("")) {
+                    generateInvalidInputAlert(errorMessage);
+                }
             }
         } catch (Exception e) {
             statusLabelText.setText("There was a failure to edit the selected employee, or no employee was selected");
-            generateInvalidInputAlert(errorMessage);
+            if (!errorMessage.equals("")) {
+                generateInvalidInputAlert(errorMessage);
+            }
         }
     }
 

@@ -55,7 +55,6 @@ public class Validation {
 
     // Extra Credit 2 //
     public static boolean scanDatabaseForMatchingEmail(String DB_URL, String email, Label statusLabelText) {
-        int numberOfRows = -1;
         boolean foundMatch = false;
         try {
             Connection connection = DriverManager.getConnection(DB_URL);
