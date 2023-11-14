@@ -110,7 +110,7 @@ public class PrimaryController {
 
     @FXML
     private void listEmployeesButtonOnAction(ActionEvent event) {
-        EmployeeDBController.listRecords(myList, statusLabelText);
+        EmployeeDBController.listRecords(tableView, myList, statusLabelText);
     }
 
     @FXML
@@ -120,10 +120,10 @@ public class PrimaryController {
 
     @FXML
     private void deleteEmployee(ActionEvent event) {
-        EmployeeDBController.deleteRecord(statusLabelText, tableView, myList);
+        EmployeeDBController.deleteRecord(statusLabelText, tableView, myList, firstNameTextField, lastNameTextField, emailTextField, phoneTextField, salaryTextField);
     }
 
-    // Extra Credit 1
+    // Extra Credit 1 //
     @FXML
     private void editEmployeee(ActionEvent event) {
         EmployeeDBController.updateRecord(tableView, statusLabelText, firstNameTextField, lastNameTextField, emailTextField, phoneTextField, salaryTextField, myList);
@@ -209,7 +209,7 @@ public class PrimaryController {
         aboutAlert.showAndWait();
     }
 
-    // Extra Credit 1
+    // Extra Credit 1 //
     @FXML
     private void enableEditEmployeeOnMousePress(MouseEvent event) {
         int selectedIndex = -1;

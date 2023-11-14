@@ -14,8 +14,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -98,39 +96,46 @@ public class EmployeeDBController {
         fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV", "*.CSV"));
         File selectedFile = fileChooser.showSaveDialog(null);
-        String content = "";
         if (selectedFile != null) {
             statusLabelText.setText("Writing file to " + selectedFile.getAbsolutePath() + "...");
-            PrintStream outFile = null;
-            for (int i = 0; i < myList.size(); i++) {
-                content += myList.get(i).getFirstName() + "," + myList.get(i).getLastName() + "," + myList.get(i).getEmail() + "," + myList.get(i).getPhone() + "," + myList.get(i).getSalary() + "\n";
-            }
             try {
-                outFile = new PrintStream(selectedFile);
-                outFile.print(content);
-            } catch (FileNotFoundException ex) {
+                PrintStream outFile = new PrintStream(selectedFile);
+                Connection connection = DriverManager.getConnection(DB_URL);
+                Statement statement = connection.createStatement();
+                String query = "SELECT * FROM employee";
+                ResultSet result = statement.executeQuery(query);
+                while (result.next()) {
+                    String firstName = result.getString("First_Name");
+                    String lastName = result.getString("Last_Name");
+                    String email = result.getString("Email");
+                    String phone = result.getString("Phone");
+                    double salary = result.getDouble("Salary");
+                    String content = firstName + "," + lastName + "," + email + "," + phone + "," + salary + "\n";
+                    outFile.print(content);
+                }
+                connection.close();
+                outFile.close();
+            } catch (FileNotFoundException | SQLException ex) {
                 statusLabelText.setText("There was a failure to save file");
             }
-            outFile.close();
             statusLabelText.setText("Saved file to " + selectedFile.getAbsolutePath());
         }
     }
 
-    public static void listRecords(ObservableList<Employee> myList, Label statusLabelText) {
+    public static void listRecords(TableView tableView, ObservableList<Employee> myList, Label statusLabelText) {
+        tableView.getItems().clear();
         try {
             statusLabelText.setText("Listing employees from " + DB_URL + "...");
             Connection connection = DriverManager.getConnection(DB_URL);
-            Statement stmt = connection.createStatement();
+            Statement statement = connection.createStatement();
             String query = "SELECT * FROM employee";
-            ResultSet result = stmt.executeQuery(query);
-            String firstName, lastName, email, phone;
-            double salary;
+            ResultSet result = statement.executeQuery(query);
             while (result.next()) {
-                firstName = result.getString("First_Name");
-                lastName = result.getString("Last_Name");
-                email = result.getString("Email");
-                phone = result.getString("Phone");
-                salary = result.getDouble("Salary");
+                String firstName = result.getString("First_Name");
+                String lastName = result.getString("Last_Name");
+                String email = result.getString("Email");
+                String phone = result.getString("Phone");
+                double salary = result.getDouble("Salary");
                 myList.add(new Employee(firstName, lastName, email, phone, salary));
             }
             connection.close();
@@ -150,8 +155,7 @@ public class EmployeeDBController {
             if (firstName.equals("")) {
                 errorMessage += "No first name was entered.\n";
                 hasBlankString = true;
-            }
-            if (!Validation.validateFirstName(firstName)) {
+            } else if (!Validation.validateFirstName(firstName)) {
                 errorMessage += "Invalid first name. The first letter must be capital.\n";
                 hasInvalidInput = true;
             }
@@ -159,8 +163,7 @@ public class EmployeeDBController {
             if (lastName.equals("")) {
                 errorMessage += "No last name was entered.\n";
                 hasBlankString = true;
-            }
-            if (!Validation.validateLastName(lastName)) {
+            } else if (!Validation.validateLastName(lastName)) {
                 errorMessage += "Invalid last name. The first letter must be capital.\n";
                 hasInvalidInput = true;
             }
@@ -168,8 +171,11 @@ public class EmployeeDBController {
             if (email.equals("")) {
                 errorMessage += "No email was entered.\n";
                 hasBlankString = true;
-            }
-            if (!Validation.validateEmail(email)) {
+            } // Extra Credit 2 //
+            else if (Validation.scanDatabaseForMatchingEmail(DB_URL, email, statusLabelText)) {
+                errorMessage += "This email already exists in the table.\n";
+                hasInvalidInput = true;
+            } else if (!Validation.validateEmail(email)) {
                 errorMessage += "Invalid email. The email must follow a simple email rule: string1@string2.domain.\nThe "
                         + "string1 and string2 contain lowercase letters and digits. The domain contains 2 to 4 lowercase letters.\n";
                 hasInvalidInput = true;
@@ -178,8 +184,7 @@ public class EmployeeDBController {
             if (phone.equals("")) {
                 errorMessage += "No phone was entered.\n";
                 hasBlankString = true;
-            }
-            if (!Validation.validatePhone(phone)) {
+            } else if (!Validation.validatePhone(phone)) {
                 errorMessage += "Invalid phone. The phone must follow the format xxx-xxx-xxxx.\n";
                 hasInvalidInput = true;
             }
@@ -215,6 +220,7 @@ public class EmployeeDBController {
                     preparedStatement.setDouble(5, salary);
                     preparedStatement.executeUpdate();
                     connection.close();
+                    myList.add(new Employee(firstName, lastName, email, phone, salary));
                     statusLabelText.setText("An employee has been added");
                 } else {
                     statusLabelText.setText("Unable to add employee to the table");
@@ -230,7 +236,7 @@ public class EmployeeDBController {
         }
     }
 
-    public static void deleteRecord(Label statusLabelText, TableView tableView, ObservableList<Employee> myList) {
+    public static void deleteRecord(Label statusLabelText, TableView tableView, ObservableList<Employee> myList, TextField firstNameTextField, TextField lastNameTextField, TextField emailTextField, TextField phoneTextField, TextField salaryTextField) {
         try {
             statusLabelText.setText("Deleting selected employee...");
             int selectedIndex = tableView.getSelectionModel().getSelectedIndex();
@@ -241,8 +247,7 @@ public class EmployeeDBController {
             Statement statement = connection.createStatement();
             String query = "DELETE FROM employee WHERE Email = '" + selectedEmail + "'";
             statement.executeUpdate(query);
-            tableView.getItems().clear();
-            listRecords(myList, statusLabelText);
+            listRecords(tableView, myList, statusLabelText);
             statusLabelText.setText("The selected employee, with email " + selectedEmail + ", has been deleted");
         } catch (Exception e) {
             statusLabelText.setText("There was a failure to removing the selected employee, or no employee was selected");
@@ -258,7 +263,7 @@ public class EmployeeDBController {
         invalidInputAlert.showAndWait();
     }
 
-    // Extra Credit 1
+    // Extra Credit 1 //
     public static void updateRecord(TableView tableView, Label statusLabelText, TextField firstNameTextField, TextField lastNameTextField, TextField emailTextField, TextField phoneTextField, TextField salaryTextField, ObservableList<Employee> myList) {
         String errorMessage = "";
         try {
@@ -270,8 +275,7 @@ public class EmployeeDBController {
             if (firstName.equals("")) {
                 errorMessage += "No first name was entered.\n";
                 hasBlankString = true;
-            }
-            if (!Validation.validateFirstName(firstName)) {
+            } else if (!Validation.validateFirstName(firstName)) {
                 errorMessage += "Invalid first name. The first letter must be capital.\n";
                 hasInvalidInput = true;
             }
@@ -279,8 +283,7 @@ public class EmployeeDBController {
             if (lastName.equals("")) {
                 errorMessage += "No last name was entered.\n";
                 hasBlankString = true;
-            }
-            if (!Validation.validateLastName(lastName)) {
+            } else if (!Validation.validateLastName(lastName)) {
                 errorMessage += "Invalid last name. The first letter must be capital.\n";
                 hasInvalidInput = true;
             }
@@ -288,8 +291,11 @@ public class EmployeeDBController {
             if (email.equals("")) {
                 errorMessage += "No email was entered.\n";
                 hasBlankString = true;
-            }
-            if (!Validation.validateEmail(email)) {
+            } // Extra Credit 2 //
+            else if (Validation.scanDatabaseForMatchingEmail(DB_URL, email, statusLabelText)) {
+                errorMessage += "This email already exists in the table.\n";
+                hasInvalidInput = true;
+            } else if (!Validation.validateEmail(email)) {
                 errorMessage += "Invalid email. The email must follow a simple email rule: string1@string2.domain.\nThe "
                         + "string1 and string2 contain lowercase letters and digits. The domain contains 2 to 4 lowercase letters.\n";
                 hasInvalidInput = true;
@@ -298,8 +304,7 @@ public class EmployeeDBController {
             if (phone.equals("")) {
                 errorMessage += "No phone was entered.\n";
                 hasBlankString = true;
-            }
-            if (!Validation.validatePhone(phone)) {
+            } else if (!Validation.validatePhone(phone)) {
                 errorMessage += "Invalid phone. The phone must follow the format xxx-xxx-xxxx.\n";
                 hasInvalidInput = true;
             }
@@ -319,15 +324,10 @@ public class EmployeeDBController {
                 }
                 if (!hasInvalidInput) {
                     double salary = Double.parseDouble(salaryTextField.getText());
-                    Employee employee = new Employee(firstName, lastName, email, phone, salary);
-                    myList.add(employee);
-                    tableView.getSelectionModel().clearSelection();
+                    deleteRecord(statusLabelText, tableView, myList, firstNameTextField, lastNameTextField, emailTextField, phoneTextField, salaryTextField);
                     tableView.getItems().remove(selectedIndex);
-                    firstNameTextField.clear();
-                    lastNameTextField.clear();
-                    emailTextField.clear();
-                    phoneTextField.clear();
-                    salaryTextField.clear();
+                    addRecord(statusLabelText, firstNameTextField, lastNameTextField, emailTextField, phoneTextField, salaryTextField, myList, tableView);
+                    listRecords(tableView, myList, statusLabelText);
                     statusLabelText.setText("The selected employee has been edited");
                 } else {
                     statusLabelText.setText("Unable to edit the selected employee");

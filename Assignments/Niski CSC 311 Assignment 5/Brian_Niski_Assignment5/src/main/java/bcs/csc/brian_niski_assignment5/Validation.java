@@ -4,6 +4,15 @@
  */
 package bcs.csc.brian_niski_assignment5;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.control.Label;
+
 /**
  *
  * @author Brian
@@ -44,6 +53,30 @@ public class Validation {
 
     public static boolean checkForMatchingValue(double ob1, double ob2) {
         return Math.abs(ob1 - ob2) <= 0.000001;
+    }
+
+    // Extra Credit 2 //
+    public static boolean scanDatabaseForMatchingEmail(String DB_URL, String email, Label statusLabelText) {
+        int numberOfRows = -1;
+        boolean foundMatch = false;
+        try {
+            Connection connection = DriverManager.getConnection(DB_URL);
+            Statement statement = connection.createStatement();
+            String query = "SELECT * FROM employee";
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                String scannedEmail = resultSet.getString("email");
+                if (email.equals(scannedEmail)) {
+                    foundMatch = true;
+                    break;
+                }
+            }
+            connection.close();
+            return foundMatch;
+        } catch (SQLException e) {
+            statusLabelText.setText("Unable to connect to database");
+        }
+        return false;
     }
 
 }
