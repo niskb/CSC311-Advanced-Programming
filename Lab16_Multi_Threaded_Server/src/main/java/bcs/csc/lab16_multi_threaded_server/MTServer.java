@@ -22,7 +22,10 @@ public class MTServer {
             Socket socket = new Socket();
             while (keepServerRunning) {
                 socket = serverSocket.accept();
+
                 ServerThread serverThread = new ServerThread(socket);
+                serverThread.printThreadInfo();
+
                 serverThread.start();
             }
             serverSocket.close();
@@ -38,6 +41,13 @@ public class MTServer {
 
         public ServerThread(Socket socket) {
             this.socket = socket;
+        }
+
+        public void printThreadInfo() {
+            System.out.println("Internet Address: " + socket.getInetAddress());
+            System.out.println("Local Address: " + socket.getLocalAddress());
+            System.out.println("Local Port: " + socket.getLocalPort());
+            System.out.println("Port: " + socket.getPort());
         }
 
         @Override

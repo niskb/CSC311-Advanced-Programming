@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+
+
+<Pane xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bcs.csc.lab16_mtservergui.SecondaryController">
+   <children>
+      <HBox>
+         <children>
+            <Label text="Enter a radius:" />
+            <TextField fx:id="radiusTF" onAction="#handleRadiusTF" />
+         </children>
+      </HBox>
+      <TextArea fx:id="textArea" layoutY="26.0" />
+   </children>
+</Pane>

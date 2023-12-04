@@ -7,6 +7,7 @@ package bcs.csc.lab16_multi_threaded_server;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -15,12 +16,16 @@ import java.util.Scanner;
  *
  * @author Brian
  */
-public class Client {
+public class MClient {
 
     public static void main(String[] args) {
         Scanner keyboard = new Scanner(System.in);
         try {
             Socket socket = new Socket("localhost", 8000);
+            InetAddress address = socket.getInetAddress();
+            System.out.println("Host Name: " + address.getHostName());
+            System.out.println("Host Address: " + address.getHostAddress());
+            
             DataInputStream in = new DataInputStream(socket.getInputStream());
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 
